@@ -1,4 +1,4 @@
-const API = " http://127.0.0.1:8000";
+const API = "https://mindmetric-6itb.onrender.com/";
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const form = $("#form");
