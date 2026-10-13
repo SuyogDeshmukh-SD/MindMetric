@@ -1,4 +1,4 @@
-const API = "https://mindmetric-6itb.onrender.com/";
+const API = "https://mindmetric-6itb.onrender.com"
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const form = $("#form");
