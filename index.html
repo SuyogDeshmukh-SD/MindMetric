@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MindMetric · Student wellbeing predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-in">
+    <div class="logo" aria-label="MindMetric">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <defs>
+          <linearGradient id="logoGradient" x1="4" y1="4" x2="28" y2="28">
+            <stop offset="0" stop-color="#f6c56d"/>
+            <stop offset=".52" stop-color="#e8895b"/>
+            <stop offset="1" stop-color="#6fc2a4"/>
+          </linearGradient>
+        </defs>
+        <circle cx="16" cy="16" r="14" fill="url(#logoGradient)"/>
+        <path d="M10.5 17.2c0-4.6 2.2-7.2 5.5-7.2 3 0 5.5 2.2 5.5 5.4 0 4.7-3.1 7.7-7.3 7.7-2.1 0-3.7-1.1-3.7-3.1 0-1 .4-1.9 1.2-2.8" fill="none" stroke="#173b4b" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M16 10v12M12.2 14.2h3.5M16 18h3.8" fill="none" stroke="#173b4b" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span>Mind<span class="logo-accent">Metric</span></span>
+    </div>
+    <span class="status" id="status" data-s="wait"><i></i><b>Checking API…</b></span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-in">
+    <h1>Predict student wellbeing<br>from everyday habits.</h1>
+    <p>A quick, private check-in for student wellbeing.</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <section class="card main" id="mainCard">
+    <ol class="stepper" id="stepper">
+      <li class="on"><span>1</span>Profile</li>
+      <li><span>2</span>Social media</li>
+      <li><span>3</span>Lifestyle</li>
+    </ol>
+    <div class="bar"><i id="progress"></i></div>
+
+    <div id="alert" class="alert" role="alert" hidden></div>
+
+    <form id="form" novalidate>
+      <div class="step on" data-step="0">
+        <h2><span>01</span> Profile</h2>
+        <div class="grid">
+          <div class="field"><label for="age">Age</label>
+            <input type="number" id="age" name="age" min="1" max="100" placeholder="21" inputmode="numeric">
+            <small class="err" data-for="age"></small></div>
+          <div class="field"><label for="country">Country</label>
+            <input type="text" id="country" name="country" list="countries" placeholder="Start typing…" autocomplete="off">
+            <datalist id="countries"><option value="India"><option value="USA"><option value="Canada"><option value="Australia"><option value="UK"><option value="Germany"><option value="Mexico"><option value="Turkey"><option value="France"><option value="Other"></datalist>
+            <small class="err" data-for="country"></small></div>
+        </div>
+        <div class="field"><span class="label">Gender</span>
+          <div class="seg"><label><input type="radio" name="gender" value="Male"><span>Male</span></label><label><input type="radio" name="gender" value="Female"><span>Female</span></label></div>
+          <small class="err" data-for="gender"></small></div>
+        <div class="field"><span class="label">Academic level</span>
+          <div class="seg"><label><input type="radio" name="academic_Level" value="High School"><span>High School</span></label><label><input type="radio" name="academic_Level" value="Undergraduate"><span>Undergraduate</span></label><label><input type="radio" name="academic_Level" value="Graduate"><span>Graduate</span></label></div>
+          <small class="err" data-for="academic_Level"></small></div>
+      </div>
+
+      <div class="step" data-step="1">
+        <h2><span>02</span> Academic &amp; digital habits</h2>
+        <div class="field"><span class="label">Most used platform</span>
+          <div class="tiles" id="platforms"></div>
+          <small class="err" data-for="most_Used_Platform"></small></div>
+        <div class="field"><span class="label">Main purpose</span>
+          <div class="seg"><label><input type="radio" name="purpose_Of_Use" value="Networking"><span>Networking</span></label><label><input type="radio" name="purpose_Of_Use" value="Education"><span>Education</span></label><label><input type="radio" name="purpose_Of_Use" value="Entertainment"><span>Entertainment</span></label><label><input type="radio" name="purpose_Of_Use" value="News"><span>News</span></label></div>
+          <small class="err" data-for="purpose_Of_Use"></small></div>
+        <div class="grid">
+          <div class="field"><label for="avg_daily_Usage_Hours">Daily usage <output data-out="avg_daily_Usage_Hours"></output></label>
+            <input type="range" class="slider" id="avg_daily_Usage_Hours" name="avg_daily_Usage_Hours" min="0" max="24" step="0.5" value="0">
+            <small class="err" data-for="avg_daily_Usage_Hours"></small></div>
+          <div class="field"><label for="daily_Unlocks">Phone unlocks per day</label>
+            <input type="number" id="daily_Unlocks" name="daily_Unlocks" min="0" placeholder="80" inputmode="numeric">
+            <small class="err" data-for="daily_Unlocks"></small></div>
+        </div>
+      </div>
+
+      <div class="step" data-step="2">
+        <h2><span>03</span> Lifestyle &amp; stress</h2>
+        <div class="field"><label for="study_Hours">Study <output data-out="study_Hours"></output></label>
+          <input type="range" class="slider" id="study_Hours" name="study_Hours" min="0" max="24" step="0.5" value="0"><small class="err" data-for="study_Hours"></small></div>
+        <div class="field"><label for="physical_Activity_Hours">Physical activity <output data-out="physical_Activity_Hours"></output></label>
+          <input type="range" class="slider" id="physical_Activity_Hours" name="physical_Activity_Hours" min="0" max="24" step="0.5" value="0"><small class="err" data-for="physical_Activity_Hours"></small></div>
+        <div class="field"><label for="sleep_Hours_Per_Night">Sleep per night <output data-out="sleep_Hours_Per_Night"></output></label>
+          <input type="range" class="slider" id="sleep_Hours_Per_Night" name="sleep_Hours_Per_Night" min="0" max="24" step="0.5" value="0"><small class="err" data-for="sleep_Hours_Per_Night"></small></div>
+        <div class="field"><span class="label">Stress level</span>
+          <div class="seg stress"><label><input type="radio" name="stress_Level" value="Low"><span>Low</span></label><label><input type="radio" name="stress_Level" value="Medium"><span>Medium</span></label><label><input type="radio" name="stress_Level" value="High"><span>High</span></label><label><input type="radio" name="stress_Level" value="Very High"><span>Very High</span></label></div>
+          <small class="err" data-for="stress_Level"></small></div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn ghost" id="back" hidden>Back</button>
+        <button type="button" class="btn" id="next">Continue</button>
+        <button type="submit" class="btn go" id="submit" hidden>Predict score</button>
+      </div>
+    </form>
+  </section>
+
+  <aside class="card side">
+    <div class="preview-kicker">MindMetric signal</div>
+    <h3 id="sideTitle">Your score will appear here</h3>
+    <p class="sub" id="sideText">Complete the check-in and submit to generate a predicted wellbeing score.</p>
+    <strong class="preview-zero" id="sideScore">0.0<small>/10</small></strong>
+    <div class="preview-divider"></div>
+    <h4>A typical day</h4>
+    <p class="sub">Your hours, out of 24.</p>
+    <div class="day" id="day"></div>
+    <ul class="legend" id="legend"></ul>
+    <p class="free" id="free"></p>
+  </aside>
+
+  <!-- Results -->
+  <section class="card result" id="result" hidden>
+    <div class="res-top">
+      <div class="gauge" id="gauge" data-state="loading" data-tone="">
+        <svg viewBox="0 0 220 130">
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#e5484d"/><stop offset=".5" stop-color="#f5a524"/><stop offset="1" stop-color="#12a37f"/></linearGradient></defs>
+          <path class="g-bg" d="M20 115 A90 90 0 0 1 200 115" pathLength="100"/>
+          <path class="g-fg" id="arc" d="M20 115 A90 90 0 0 1 200 115" pathLength="100"/>
+        </svg>
+        <div class="g-num"><strong id="num">0</strong><span id="max"></span></div>
+      </div>
+      <div class="res-copy">
+        <span class="badge" id="badge">Analysing</span>
+        <h2 id="resTitle">Running the model…</h2>
+        <p id="resText" class="sub">Reading your answers.</p>
+        <div class="actions left">
+          <button class="btn" id="edit">Edit answers</button>
+          <button class="btn ghost" id="again">Start over</button>
+        </div>
+      </div>
+    </div>
+    <div class="insights" id="insights"></div>
+    <p class="fine">Habit notes use general guidelines and are not model output. This is an estimate, not a diagnosis or medical advice.</p>
+  </section>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
